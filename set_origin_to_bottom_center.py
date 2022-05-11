@@ -2,7 +2,7 @@ import bpy
 from mathutils import Matrix, Vector
 
 bl_info = {
-    "name": "Set the origin of the selected object to bottom center",
+    "name": "Set origin to bottom center",
     "blender": (2, 80, 0),
     "category": "Object",
 }
