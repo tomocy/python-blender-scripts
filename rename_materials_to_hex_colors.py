@@ -24,11 +24,16 @@ class ObjectRenameMaterialsToHexColors(bpy.types.Operator):
 
         obj = selected[0]
         for material in obj.data.materials:
-            rgba = material.diffuse_color
+            rgb = list(
+                map(
+                    color_factor_to_hex,
+                    material.diffuse_color[0:3],
+                ),
+            )
             r, g, b = (
-                color_factor_to_hex(rgba[0]),
-                color_factor_to_hex(rgba[1]),
-                color_factor_to_hex(rgba[2]),
+                rgb[0],
+                rgb[1],
+                rgb[2],
             )
 
             material.name = "%02x%02x%02x" % (r, g, b)
