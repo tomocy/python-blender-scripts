@@ -22,8 +22,12 @@ class ObjectRenameMaterialsToHexColors(bpy.types.Operator):
             self._log("no object is selected")
             return {"FINISHED"}
 
+        all_materials = {}
+        for m in bpy.data.materials:
+            all_materials[m.name] = m
+
         obj = selected[0]
-        for material in obj.data.materials:
+        for i, material in enumerate(obj.data.materials):
             rgb = list(
                 map(
                     color_factor_to_hex,
@@ -35,8 +39,15 @@ class ObjectRenameMaterialsToHexColors(bpy.types.Operator):
                 rgb[1],
                 rgb[2],
             )
+            name = "%02x%02x%02x" % (r, g, b)
 
-            material.name = "%02x%02x%02x" % (r, g, b)
+            found = all_materials.get(name)
+            if found is not None:
+                obj.data.materials[i] = found
+                continue
+
+            material.name = name
+            all_materials[name] = material
 
         self._log("rename the materials to hex colors")
 
